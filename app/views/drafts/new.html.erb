@@ -1,0 +1,55 @@
+<!-- Validation failure messages -->
+<% if @draft.errors.any? %>
+  <% @draft.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Draft</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_draft" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for draft_id -->
+      <div class="form-group">
+        <label for="draft_id" class="control-label">
+          Draft
+        </label>
+
+        <input type="text" id="draft_id" name="draft_id" placeholder="Draft" class="form-control" value="<%= @draft.draft_id %>">
+      </div>
+
+      <!-- Label and input for players_id -->
+      <div class="form-group">
+        <label for="players_id" class="control-label">
+          Players
+        </label>
+
+        <input type="text" id="players_id" name="players_id" placeholder="Players" class="form-control" value="<%= @draft.players_id %>">
+      </div>
+
+      <!-- Label and input for pick_num -->
+      <div class="form-group">
+        <label for="pick_num" class="control-label">
+          Pick num
+        </label>
+
+        <input type="text" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="<%= @draft.pick_num %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Draft
+      </button>
+      or
+      <a href="/drafts">Cancel</a>
+    </form>
+  </div>
+</div>

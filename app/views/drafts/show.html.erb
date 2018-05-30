@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h3>Draft #<%= @draft.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Draft</dt>
+      <dd><%= @draft.draft_id %></dd>
+
+      <dt>Players</dt>
+      <dd><%= @draft.players_id %></dd>
+
+      <dt>Pick num</dt>
+      <dd><%= @draft.pick_num %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/drafts" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/drafts/<%= @draft.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_draft/<%= @draft.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
