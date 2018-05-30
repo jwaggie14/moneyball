@@ -1,0 +1,73 @@
+<!-- Validation failure messages -->
+<% if @league.errors.any? %>
+  <% @league.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit League #<%= @league.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_league/<%= @league.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @league.user_id %>">
+      </div>
+
+      <!-- Label and input for num_teams -->
+      <div class="form-group">
+        <label for="num_teams" class="control-label">
+          Num teams
+        </label>
+
+        <input type="text" id="num_teams" name="num_teams" placeholder="Num teams" class="form-control" value="<%= @league.num_teams %>">
+      </div>
+
+      <!-- Label and input for scoring -->
+      <div class="form-group">
+        <label for="scoring" class="control-label">
+          Scoring
+        </label>
+
+        <input type="text" id="scoring" name="scoring" placeholder="Scoring" class="form-control" value="<%= @league.scoring %>">
+      </div>
+
+      <!-- Label and input for user_first_pick -->
+      <div class="form-group">
+        <label for="user_first_pick" class="control-label">
+          User first pick
+        </label>
+
+        <input type="text" id="user_first_pick" name="user_first_pick" placeholder="User first pick" class="form-control" value="<%= @league.user_first_pick %>">
+      </div>
+
+      <!-- Label and input for league_name -->
+      <div class="form-group">
+        <label for="league_name" class="control-label">
+          League name
+        </label>
+
+        <input type="text" id="league_name" name="league_name" placeholder="League name" class="form-control" value="<%= @league.league_name %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update League
+      </button>
+      or
+      <a href="/leagues/<%= @league.id %>">Cancel</a>
+    </form>
+  </div>
+</div>
