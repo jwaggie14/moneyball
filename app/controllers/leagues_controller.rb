@@ -50,8 +50,6 @@ class LeaguesController < ApplicationController
 
   def update
     @league = League.find(params[:id])
-
-    @league.user_id = params[:user_id]
     @league.num_teams = params[:num_teams]
     @league.scoring = params[:scoring]
     @league.user_first_pick = params[:user_first_pick]
