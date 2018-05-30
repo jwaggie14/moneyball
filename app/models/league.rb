@@ -10,6 +10,10 @@ class League < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :players,
+             :through => :drafts,
+             :source => :players
+
   # Validations
 
 end

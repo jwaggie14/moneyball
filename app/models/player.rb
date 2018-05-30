@@ -6,6 +6,10 @@ class Player < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :leagues,
+             :through => :drafts,
+             :source => :league
+
   # Validations
 
 end
