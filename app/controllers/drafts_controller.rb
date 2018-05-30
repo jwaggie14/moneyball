@@ -1,6 +1,6 @@
 class DraftsController < ApplicationController
   def index
-    @drafts = Draft.all
+    @drafts = Draft.page(params[:page]).per(10)
 
     render("drafts/index.html.erb")
   end
