@@ -1,6 +1,7 @@
 class DraftsController < ApplicationController
   def index
-    @drafts = Draft.page(params[:page]).per(10)
+    @q = Draft.ransack(params[:q])
+    @drafts = @q.result(:distinct => true).includes(:players, :league).page(params[:page]).per(10)
 
     render("drafts/index.html.erb")
   end

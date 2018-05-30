@@ -10,7 +10,8 @@ class LeaguesController < ApplicationController
   end
 
   def index
-    @leagues = current_user.leagues.page(params[:page]).per(10)
+    @q = current_user.leagues.ransack(params[:q])
+    @leagues = @q.result(:distinct => true).includes(:user, :drafts, :players).page(params[:page]).per(10)
 
     render("leagues/index.html.erb")
   end
