@@ -10,7 +10,7 @@ class LeaguesController < ApplicationController
   end
 
   def index
-    @leagues = League.all
+    @leagues = current_user.leagues.page(params[:page]).per(10)
 
     render("leagues/index.html.erb")
   end
