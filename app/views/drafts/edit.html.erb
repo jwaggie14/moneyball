@@ -33,7 +33,7 @@
           Players
         </label>
 
-        <input type="text" id="players_id" name="players_id" placeholder="Players" class="form-control" value="<%= @draft.players_id %>">
+        <%= select_tag(:players_id, options_from_collection_for_select(Player.all, :id, :created_at, @draft.players_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for pick_num -->
