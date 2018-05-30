@@ -19,7 +19,7 @@
 
       <% @leagues.each do |league| %>
       <tr>
-        <td><%= league.user_id %></td>
+        <td><%= league.user.email %></td>
         <td><%= league.num_teams %></td>
         <td><%= league.scoring %></td>
         <td><%= league.user_first_pick %></td>
