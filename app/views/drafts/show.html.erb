@@ -6,10 +6,22 @@
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
       <dt>Draft</dt>
-      <dd><%= @draft.draft_id %></dd>
+      <dd>
+        <% if @draft.league.present? %>
+          <a href="/leagues/<%= @draft.draft_id %>">
+            <%= @draft.league.league_name %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Players</dt>
-      <dd><%= @draft.players_id %></dd>
+      <dd>
+        <% if @draft.players.present? %>
+          <a href="/players/<%= @draft.players_id %>">
+            <%= @draft.players.created_at %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Pick num</dt>
       <dd><%= @draft.pick_num %></dd>

@@ -19,7 +19,13 @@
 
       <% @leagues.each do |league| %>
       <tr>
-        <td><%= league.user.email %></td>
+        <td>
+          <% if league.user.present? %>
+            <a href="/users/<%= league.user.id %>">
+              <%= league.user.email %>
+            </a>
+          <% end %>
+        </td>
         <td><%= league.num_teams %></td>
         <td><%= league.scoring %></td>
         <td><%= league.user_first_pick %></td>

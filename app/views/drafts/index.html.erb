@@ -17,8 +17,20 @@
 
       <% @drafts.each do |draft| %>
       <tr>
-        <td><%= draft.league.league_name %></td>
-        <td><%= draft.players.created_at %></td>
+        <td>
+          <% if draft.league.present? %>
+            <a href="/leagues/<%= draft.league.id %>">
+              <%= draft.league.league_name %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if draft.players.present? %>
+            <a href="/players/<%= draft.players.id %>">
+              <%= draft.players.created_at %>
+            </a>
+          <% end %>
+        </td>
         <td><%= draft.pick_num %></td>
         <td>
           <a href="/drafts/<%= draft.id %>" class="btn btn-primary">Show</a>
