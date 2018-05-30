@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root :to => "players#index"
   # Routes for the Draft resource:
   # CREATE
   get "/drafts/new", :controller => "drafts", :action => "new"
