@@ -24,7 +24,7 @@
           Draft
         </label>
 
-        <input type="text" id="draft_id" name="draft_id" placeholder="Draft" class="form-control" value="<%= @draft.draft_id %>">
+        <%= select_tag(:draft_id, options_from_collection_for_select(League.all, :id, :league_name, @draft.draft_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for players_id -->
