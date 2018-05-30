@@ -35,3 +35,65 @@
     </div>
   </div>
 </div>
+
+<!-- A League has many drafts -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Drafts
+      </li>
+
+      <% @league.drafts.each do |draft| %>
+        <li class="list-group-item">
+          <a href="/drafts/<%= draft.id %>">
+            <%= draft.draft_id %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/drafts/<%= draft.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <a href="/drafts/<%= draft.id %>/edit" class="btn btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="/delete_draft/<%= draft.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<!-- A League has many players -->
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-info">
+        Players
+      </li>
+
+      <% @league.players.each do |player| %>
+        <li class="list-group-item">
+          <a href="/players/<%= player.id %>">
+            <%= player.created_at %>
+          </a>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="/players/<%= player.id %>" class="btn btn-primary">
+              <i class="fa fa-search-plus"></i>
+            </a>
+            <a href="/players/<%= player.id %>/edit" class="btn btn-warning">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a href="/delete_player/<%= player.id %>" class="btn btn-danger" rel="nofollow">
+              <i class="fa fa-trash-o"></i>
+            </a>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
