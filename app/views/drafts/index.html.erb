@@ -17,7 +17,7 @@
 
       <% @drafts.each do |draft| %>
       <tr>
-        <td><%= draft.draft_id %></td>
+        <td><%= draft.league.league_name %></td>
         <td><%= draft.players_id %></td>
         <td><%= draft.pick_num %></td>
         <td>
