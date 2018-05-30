@@ -26,8 +26,11 @@
         <td><%= league.league_name %></td>
         <td>
           <a href="/leagues/<%= league.id %>" class="btn btn-primary">Show</a>
-          <a href="/leagues/<%= league.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_league/<%= league.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          
+          <% if current_user == league.user %>
+            <a href="/leagues/<%= league.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_league/<%= league.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>
