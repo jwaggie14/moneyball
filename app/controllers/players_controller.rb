@@ -6,6 +6,7 @@ class PlayersController < ApplicationController
   end
 
   def show
+    @draft = Draft.new
     @player = Player.find(params[:id])
 
     render("players/show.html.erb")

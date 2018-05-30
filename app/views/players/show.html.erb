@@ -48,6 +48,44 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_draft" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for draft_id -->
+      <div class="form-group">
+        <label for="draft_id" class="control-label">
+          Draft
+        </label>
+
+        <%= select_tag(:draft_id, options_from_collection_for_select(League.all, :id, :league_name), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for players_id -->
+      <div class="form-group">
+        <label for="players_id" class="control-label">
+          Players
+        </label>
+
+        <%= select_tag(:players_id, options_from_collection_for_select(Player.all, :id, :created_at), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for pick_num -->
+      <div class="form-group">
+        <label for="pick_num" class="control-label">
+          Pick num
+        </label>
+
+        <input type="text" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="">
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Draft
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>

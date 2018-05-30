@@ -16,6 +16,7 @@ class LeaguesController < ApplicationController
   end
 
   def show
+    @draft = Draft.new
     @league = League.find(params[:id])
 
     render("leagues/show.html.erb")
