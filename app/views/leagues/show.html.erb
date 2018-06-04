@@ -1,40 +1,126 @@
 <div class="page-header">
-  <h3>League #<%= @league.id %></h3>
+  <h3><%= @league.league_name %></h3>
 </div>
 
+<hr>
+<div class="card border-dark mb-3">
+  <div class="card-header"><h3>Projections</h3></div>
+  <div class="card-body">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th scope="col text-dark" class="py-3 text-dark">Rank</th>
+          <th scope="col text-dark" class="py-3 text-dark">Team</th>
+          <th scope="col text-dark" class="py-3 text-dark text-right">Average Weekly Score</th>
+          <th scope="col text-dark" class="py-3 text-dark text-right">Average ADP (lower is better)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% y = 1 %>
+        <% @team_ranks.each do |rnk| %>
+          <tr class="py-2">
+            <th scope="row" class="py-2 text-dark"><%= y.ordinalize %></th>
+            <td class="py-2 text-dark"><%= (rnk + 1) == @my_pick.to_i ? "My Team" : "Opponent #{rnk + 1}" %></td>
+            <td class="py-2 text-right text-dark"><%= @team_points[rnk].round(2) %></td>
+            <td class="py-2 text-right text-dark"><%= @team_adp[rnk].round(2)%></td>
+            <% y+= 1%>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--team tabs-->
+        <div class="card border-dark mb-3">
+            <div class="card-header">
+              <h3>Team Rosters</h3>
+            </div>
+            <div class="card-body">
+              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opponents</h5>
+              <ul class="nav nav-pills">
+                    <li class="nav-item nav-primary mx-0">
+                      <a class="nav-link active" data-toggle="pill" href="#<%=@my_pick.to_i%>">My Team</a>
+                    </li>
+                <% (1..@num_teams).each do |team_num| %>
+                  <% if team_num == @my_pick.to_i %>
+
+                  <% else %>
+                    <li class="nav-item mx-0">
+                      <a class="nav-link" data-toggle="pill" href="#<%=team_num%>"><%=team_num%></a>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+            <div class="card-body">
+            <div id="myTabContent" class="tab-content mb-5">
+                <% (1..@num_teams).each do |team_num| %>
+                  <% if team_num == @my_pick.to_i %>
+                    <div class="tab-pane fade show active" id="<%=team_num%>">
+                      <% x = Draft.where('draft_id = ? AND team = ?', @league.id, team_num) %>
+                      <% xx = 0 %>
+                      <div class="row">
+                      <% x.each do |plr| %>
+                        <% pl = Player.find(plr.players_id) %>
+                        <% xx += 1 %>
+                          <div class="list-group-item col-md-6 text-dark ">
+                            <%= "#{xx}. #{pl.name} | #{pl.position.upcase}" %>
+                          </div>
+                      <% end %>
+                      </div>
+                    </div>
+                  <% else %>
+                    <div class="tab-pane fade show" id="<%=team_num%>">
+                      <% x = Draft.where('draft_id = ? AND team = ?', @league.id, team_num) %>
+                      <% xx = 0 %>
+                      <div class="row">
+                      <% x.each do |plr| %>
+                        <% pl = Player.find(plr.players_id) %>
+                        <% xx += 1 %>
+                        
+                          <div class="list-group-item col-md-6 text-dark ">
+                            <%= "#{xx}. #{pl.name} | #{pl.position.upcase}" %>
+                          </div>
+                        
+                      <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+              <% end %>
+
+              </div>
+            </div>
+          </div>
+
+
+<hr>
 <div class="row">
   <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>User</dt>
-      <dd>
-        <% if @league.user.present? %>
-          <a href="/users/<%= @league.user_id %>">
-            <%= @league.user.email %>
-          </a>
-        <% end %>
-      </dd>
-
-      <dt>Num teams</dt>
+    <h5>Settings</h5>
+      <div class="row">
+      <div class="col-md-2">
+      <dt class="text-dark">Number of Teams</dt>
       <dd><%= @league.num_teams %></dd>
-
-      <dt>Scoring</dt>
+      </div>
+      <div class="col-md-2">
+      <dt class="text-dark">Scoring</dt>
       <dd><%= @league.scoring %></dd>
-
-      <dt>User first pick</dt>
+      </div>  
+      <div class="col-md-2">
+      <dt class="text-dark">Your First Pick</dt>
       <dd><%= @league.user_first_pick %></dd>
-
-      <dt>League name</dt>
-      <dd><%= @league.league_name %></dd>
-
+      </div>  
+      </div>
     </dl>
-
+    <hr>
     <div class="btn-group btn-group-justified">
       <a href="/leagues" class="btn btn-primary">
         Back
       </a>
       <% if current_user == @league.user %>
-        <a href="/leagues/<%= @league.id %>/edit" class="btn btn-warning">
-          Edit
+        <a href="/leagues/<%= @league.id %>/draft" class="btn btn-warning">
+          Keep Drafting
         </a>
         <a href="/delete_league/<%= @league.id %>" class="btn btn-danger" rel="nofollow">
           Delete
@@ -43,103 +129,8 @@
     </div>
   </div>
 </div>
+<br>
+<br>
+<br>
+<br>
 
-<!-- A League has many drafts -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Drafts
-      </li>
-
-      <% @league.drafts.each do |draft| %>
-        <li class="list-group-item">
-          <a href="/drafts/<%= draft.id %>">
-            <%= draft.draft_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/drafts/<%= draft.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/drafts/<%= draft.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_draft/<%= draft.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_draft" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for draft_id -->
-      <div class="form-group">
-        <label for="draft_id" class="control-label">
-          Draft
-        </label>
-
-        <%= select_tag(:draft_id, options_from_collection_for_select(League.all, :id, :league_name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for players_id -->
-      <div class="form-group">
-        <label for="players_id" class="control-label">
-          Players
-        </label>
-
-        <%= select_tag(:players_id, options_from_collection_for_select(Player.all, :id, :created_at), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for pick_num -->
-      <div class="form-group">
-        <label for="pick_num" class="control-label">
-          Pick num
-        </label>
-
-        <input type="text" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="">
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Draft
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- A League has many players -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Players
-      </li>
-
-      <% @league.players.each do |player| %>
-        <li class="list-group-item">
-          <a href="/players/<%= player.id %>">
-            <%= player.created_at %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/players/<%= player.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/players/<%= player.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_player/<%= player.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>

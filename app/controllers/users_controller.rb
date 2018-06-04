@@ -6,4 +6,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+  
+  def home
+    render("layouts/homepage.html.erb")
+  end
 end

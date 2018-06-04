@@ -24,6 +24,7 @@ class DraftsController < ApplicationController
     @draft.draft_id = params[:draft_id]
     @draft.players_id = params[:players_id]
     @draft.pick_num = params[:pick_num]
+    @draft.team = params[:team]
 
     save_status = @draft.save
 
@@ -34,7 +35,7 @@ class DraftsController < ApplicationController
       when "/drafts/new", "/create_draft"
         redirect_to("/drafts")
       else
-        redirect_back(:fallback_location => "/", :notice => "Draft created successfully.")
+        redirect_back(:fallback_location => "/")
       end
     else
       render("drafts/new.html.erb")
@@ -78,7 +79,7 @@ class DraftsController < ApplicationController
     if URI(request.referer).path == "/drafts/#{@draft.id}"
       redirect_to("/", :notice => "Draft deleted.")
     else
-      redirect_back(:fallback_location => "/", :notice => "Draft deleted.")
+      redirect_back(:fallback_location => "/",)
     end
   end
 end

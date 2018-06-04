@@ -1,0 +1,353 @@
+<% def check_team(this_pick, your_first) %>
+  <% team_string = this_pick == your_first ? "YOU": "Opponent #{this_pick}" %>
+  <% return team_string%>
+<% end %>
+
+<% def tgp(pick_num, league_size) %>
+  <% round = ((pick_num - 1).div league_size) + 1 %>
+  <% pick = ((pick_num - 1) % league_size) + 1 %>
+  <% if round % 2 == 0 %>
+    <% team = league_size - pick + 1 %>
+  <% else %>
+    <% team = pick %>
+  <% end %>
+  <% return team %>
+<% end %>
+
+<% bool_my_turn = tgp(@current_pick + 1, @num_teams).to_s == @my_pick %>
+
+
+
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+<div class="row">
+  <div class="container">
+    <div class="row">
+      <!--player selection form-->
+      <div class="col-8">
+        <div class="card border-dark mb-3">
+          <div class="card-header">
+            <h1 class="mb-0">Draft Lobby</h1>
+          </div>
+          <div class="card-body">
+            <h3>Round <%= @r_t %>, Pick <%= @p_t %><small class="text-<%= bool_my_turn ? "danger" : "muted" %>">  <%= @cd_to_mp == 1 ? "You pick next!" : ( bool_my_turn  ? "YOu're up!" : "You pick in #{@cd_to_mp} turns.") %></small></h3>
+            <hr>
+            <!--Optimal Picks-->
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="card text-white bg-success">
+                    <div class="card-header">
+                      Best Pick
+                    </div>
+                    <div class="card-body">
+                      <%= @best_p["name"] %>
+                      <ul>
+                        <li><%= @best_p["position"].upcase %></li>
+                        <li>Points: <%= @best_p["points"].round(2) %></li>
+                        <li>ADP: <%= @best_p["adp"].round(1) %></li>
+                      </ul>
+                      <p>Probability of being picked before your next pick: </p>
+                      <h5 class="text-center"><%= ((@best_p["pick_prob"])* 100).round(0) - 1 %>%</h5>
+                      <hr>
+                      <% if bool_my_turn %>
+                      <p><%= "Drafting #{@best_p["name"]} will likely increase your average weekly score by about #{(@best_p["cumulative_oc"] / 16.0).round(1)} points more than waiting to draft a #{@best_p['position'].upcase} later." %></p>
+                      <% end %>
+                            <form action="/create_draft" method="post">
+                            <!-- Hidden input for authenticity token to protect from forgery -->
+                            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                      
+                            <!-- Label and input for draft_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="draft_id" name="draft_id" class="form-control" value="<%= @league.id %>">
+                            </div>
+                            
+                            <div class="form-group">
+                              <input type="hidden" id="team" name="team" class="form-control" value="<%= @team_pick %>">
+                            </div>
+                      
+                            <!-- Label and input for players_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="players_id" name="players_id" class="form-control" value="<%= @best_p["id"] %>">
+                            </div>
+                      
+                            <!-- Label and input for pick_num -->
+                            <div class="form-group">
+                              <input type="hidden" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="<%= @current_pick + 1 %>">
+                            </div>
+                      
+                            <div class=" text-center ">
+                                <button class="btn btn-primary btn-block">
+                                  Draft
+                                </button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card text-white bg-warning">
+                    <div class="card-header">
+                      Runner Up
+                    </div>
+                    <div class="card-body">
+                      <%= @best_p2["name"] %>
+                      <ul>
+                        <li><%= @best_p2["position"].upcase %></li>
+                        <li>Points: <%= @best_p2["points"].round(2) %></li>
+                        <li>ADP: <%= @best_p2["adp"].round(1) %></li>
+                      </ul>
+                      <p>Probability of being picked before your next pick: </p>
+                      <h5 class="text-center"><%= ((@best_p2["pick_prob"])* 100).round(0) - 1 %>%</h5>
+                      <hr>
+                      <% if bool_my_turn %>
+                      <p><%= "Drafting #{@best_p2["name"]} will likely increase your average weekly score by about #{(@best_p2["cumulative_oc"] / 16.0).round(1)} points more than waiting to draft a #{@best_p2['position'].upcase} later." %></p>
+                      <% end %>
+
+                      <form action="/create_draft" method="post">
+                            <!-- Hidden input for authenticity token to protect from forgery -->
+                            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                      
+                            <!-- Label and input for draft_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="draft_id" name="draft_id" class="form-control" value="<%= @league.id %>">
+                            </div>
+                            
+                            <div class="form-group">
+                              <input type="hidden" id="team" name="team" class="form-control" value="<%= @team_pick %>">
+                            </div>
+                      
+                            <!-- Label and input for players_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="players_id" name="players_id" class="form-control" value="<%= @best_p2["id"] %>">
+                            </div>
+                      
+                            <!-- Label and input for pick_num -->
+                            <div class="form-group">
+                              <input type="hidden" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="<%= @current_pick + 1 %>">
+                            </div>
+                      
+                            <div class=" text-center ">
+                                <button class="btn btn-primary btn-block">
+                                  Draft
+                                </button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card text-white bg-info">
+                    <div class="card-header">
+                      Alternative
+                    </div>
+                    <div class="card-body">
+                      <%= @best_p3["name"] %>
+                      <ul>
+                        <li><%= @best_p3["position"].upcase %></li>
+                        <li>Points: <%= @best_p3["points"].round(2) %></li>
+                        <li>ADP: <%= @best_p3["adp"].round(1) %></li>
+                      </ul>
+                      <p>Probability of being picked before your next pick: </p>
+                      <h5 class="text-center"><%= ((@best_p3["pick_prob"])* 100).round(0) - 1 %>%</h5>
+                      <hr>
+                      <% if bool_my_turn %>
+                      <p><%= "Drafting #{@best_p3["name"]} will likely increase your average weekly score by about #{(@best_p3["cumulative_oc"] / 16.0).round(1)} points more than waiting to draft a #{@best_p3['position'].upcase} later." %></p>
+                      <% end %>
+                      <form action="/create_draft" method="post">
+                            <!-- Hidden input for authenticity token to protect from forgery -->
+                            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                      
+                            <!-- Label and input for draft_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="draft_id" name="draft_id" class="form-control" value="<%= @league.id %>">
+                            </div>
+                            
+                            <div class="form-group">
+                              <input type="hidden" id="team" name="team" class="form-control" value="<%= @team_pick %>">
+                            </div>
+                      
+                            <!-- Label and input for players_id -->
+                            <div class="form-group">
+                              <input type="hidden" id="players_id" name="players_id" class="form-control" value="<%= @best_p3["id"] %>">
+                            </div>
+                      
+                            <!-- Label and input for pick_num -->
+                            <div class="form-group">
+                              <input type="hidden" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="<%= @current_pick + 1 %>">
+                            </div>
+                      
+                            <div class=" text-center ">
+                                <button class="btn btn-primary btn-block">
+                                  Draft
+                                </button>
+                            </div>
+                          </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+            
+            <form action="/create_draft" method="post">
+            <!-- Hidden input for authenticity token to protect from forgery -->
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      
+            <!-- Label and input for draft_id -->
+            <div class="form-group">
+              <input type="hidden" id="draft_id" name="draft_id" class="form-control" value="<%= @league.id %>">
+            </div>
+            
+            <div class="form-group">
+              <input type="hidden" id="team" name="team" class="form-control" value="<%= @team_pick %>">
+            </div>
+      
+            <!-- Label and input for players_id -->
+            <div class="form-group">
+              <label for="players_id" class="control-label">
+                Pick a different player (type first name to search, mascots for DEF):
+              </label>
+      
+              <%= select_tag(:players_id, options_from_collection_for_select(@ps, :id, :name), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for pick_num -->
+            <div class="form-group">
+              <input type="hidden" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="<%= @current_pick + 1 %>">
+            </div>
+      
+                  <div class="btn-group btn-group-justified">
+                    <% if bool_my_turn %>
+                      <button class="btn btn-info">
+                        Draft to YOUR TEAM
+                      </button>
+                    <% else %>
+                      <button class="btn btn-outline-info">
+                        Select
+                      </button>
+                    <% end %>
+                      <% r_c = ((@current_pick - 1).div @num_teams) + 1 %>
+                      <% p_c = ((@current_pick - 1) % @num_teams) + 1 %>
+                    <a href="/delete_draft/<%= @current_pick_draft_num %>" class="btn btn btn-outline-danger ml-4" rel="nofollow">
+                      Undo Pick <%= r_c %>.<%= p_c %>
+                    </a>
+                  </div>
+              </form>
+          </div>
+        </div>
+        <!--team tabs-->
+        <div class="card border-dark mb-3">
+            <div class="card-header">
+              <h3>Team Rosters</h3>
+            </div>
+            <div class="card-body">
+              <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opponents</h5>
+              <ul class="nav nav-pills">
+                    <li class="nav-item nav-primary mx-0">
+                      <a class="nav-link active" data-toggle="pill" href="#<%=@my_pick.to_i%>">My Team</a>
+                    </li>
+                <% (1..@num_teams).each do |team_num| %>
+                  <% if team_num == @my_pick.to_i %>
+
+                  <% else %>
+                    <li class="nav-item mx-0">
+                      <a class="nav-link" data-toggle="pill" href="#<%=team_num%>"><%=team_num%></a>
+                    </li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+            <div class="card-body">
+            <div id="myTabContent" class="tab-content mb-5">
+                <% (1..@num_teams).each do |team_num| %>
+                  <% if team_num == @my_pick.to_i %>
+                    <div class="tab-pane fade show active" id="<%=team_num%>">
+                      <% x = Draft.where('draft_id = ? AND team = ?', @league.id, team_num) %>
+                      <% xx = 0 %>
+                      <div class="row">
+                      <% x.each do |plr| %>
+                        <% pl = Player.find(plr.players_id) %>
+                        <% xx += 1 %>
+                          <div class="list-group-item col-md-6 text-dark ">
+                            <%= "#{xx}. #{pl.name} | #{pl.position.upcase}" %>
+                          </div>
+                      <% end %>
+                      </div>
+                    </div>
+                  <% else %>
+                    <div class="tab-pane fade show" id="<%=team_num%>">
+                      <% x = Draft.where('draft_id = ? AND team = ?', @league.id, team_num) %>
+                      <% xx = 0 %>
+                      <div class="row">
+                      <% x.each do |plr| %>
+                        <% pl = Player.find(plr.players_id) %>
+                        <% xx += 1 %>
+                        
+                          <div class="list-group-item col-md-6 text-dark ">
+                            <%= "#{xx}. #{pl.name} | #{pl.position.upcase}" %>
+                          </div>
+                        
+                      <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+              <% end %>
+
+              </div>
+            </div>
+          </div>
+      </div>
+    
+    <!--draft history box-->
+      <div class="col-4">
+        <div class="card border-dark pull-right">
+        <h5 class="card-header">
+          Draft History
+        </h5>
+        <table class="table table-hover">
+          <thead>
+            <tr class="py-2">
+              <th scope="col" class="py-2">Round</th>
+              <th scope="col" class="py-2">Name</th>
+              <th scope="col" class="py-2">Position</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @league.drafts.order(:pick_num).reverse.each do |draft| %>
+            <% round = ((draft.pick_num - 1).div @num_teams) + 1 %>
+            <% pick = ((draft.pick_num - 1) % @num_teams) + 1 %>
+            <% t = check_team(tgp(draft.pick_num, @num_teams), @my_pick.to_i) %>
+            <% if tgp(draft.pick_num, @num_teams).to_s == @my_pick %>
+                <% row_class = "table-info" %>
+              <% else %>
+                <% row_class = "" %>
+            <% end %>
+            <tr class="<%= row_class %> py-2" data-toggle="tooltip" data-placement="right" title="Drafted by <%= t %>">
+            <% p = Player.find(draft.players_id) %>
+              <th scope="row" class="text-dark mx-auto  py-2"> <%= round %>.<%= pick %></th>
+              <td class="text-dark mx-auto  py-2"><%= p.name %></td>
+              <td class="text-dark mx-auto  py-2"><%= p.position.upcase %>
+            </tr>
+          <% end %>
+          </tbody>  
+        </table>
+         </div>
+      </div>
+    
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</footer>

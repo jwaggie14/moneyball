@@ -1,7 +1,31 @@
 <div class="page-header">
-  <h3>Player #<%= @player.id %></h3>
+  <h1><%= @player.name %></h1>
+  <div class="row">
+    <div class="col-md-3">
+      <h3><%= @player.team %> <%= @player.position %></h3>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-4">
+      <h5 class="text-center">Projected Points</h5>
+      <p class="text-center"><%= @player.points.round(2) %></p>
+    </div>
+    <div class="col-md-4">
+      <h5 class="text-center">Average Draft Position</h5>
+      <p class="text-center"><%= @player.adp.round(2) %></p>
+    </div>
+    <div class="col-md-4">
+      <h5 class="text-center">Position Rank</h5>
+      <p class="text-center"><%= @player.position_rank.ordinalize %></p>
+    </div>
+  </div>
 </div>
+<hr>
+<h3>Biography</h3>
+<p>Player bio would go here if I had it.</p>
 
+<hr>
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
@@ -11,112 +35,7 @@
       <a href="/players" class="btn btn-primary">
         Back
       </a>
-      <a href="/players/<%= @player.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_player/<%= @player.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
     </div>
   </div>
 </div>
 
-<!-- A Player has many drafts -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Drafts
-      </li>
-
-      <% @player.drafts.each do |draft| %>
-        <li class="list-group-item">
-          <a href="/drafts/<%= draft.id %>">
-            <%= draft.draft_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/drafts/<%= draft.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/drafts/<%= draft.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_draft/<%= draft.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_draft" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for draft_id -->
-      <div class="form-group">
-        <label for="draft_id" class="control-label">
-          Draft
-        </label>
-
-        <%= select_tag(:draft_id, options_from_collection_for_select(League.all, :id, :league_name), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for players_id -->
-      <div class="form-group">
-        <label for="players_id" class="control-label">
-          Players
-        </label>
-
-        <%= select_tag(:players_id, options_from_collection_for_select(Player.all, :id, :created_at), :class => "form-control") %>
-      </div>
-
-      <!-- Label and input for pick_num -->
-      <div class="form-group">
-        <label for="pick_num" class="control-label">
-          Pick num
-        </label>
-
-        <input type="text" id="pick_num" name="pick_num" placeholder="Pick num" class="form-control" value="">
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Draft
-      </button>
-    </form>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- A Player has many leagues -->
-
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Leagues
-      </li>
-
-      <% @player.leagues.each do |league| %>
-        <li class="list-group-item">
-          <a href="/leagues/<%= league.id %>">
-            <%= league.league_name %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/leagues/<%= league.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/leagues/<%= league.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_league/<%= league.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>

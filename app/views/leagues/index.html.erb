@@ -1,168 +1,98 @@
 <div class="page-header">
-  <h1>
-    Leagues
-    <a href="/leagues/new" class="btn btn-lg btn-success">New League</a>
-  </h1>
-</div><div class="row mb-1">
+  <div class="row mt-2">
+    <ul>
+      <h1>
+        <%= current_user.email %>'s Leagues
+      </h1>
+    </ul>
+    <ul class=" ml-auto mr-3">
+      <a href="/leagues/new" class="btn btn-block btn-outline-success text-dark">New League</a>
+    </ul>
+  </div>
+</div>
+
+<!--filters-->
+<div class="row mb-1 mt-2">
   <div class="col-md-12">
     <%= search_form_for @q, :class => collapse_search_form, :id => "leagues_filters" do |f| %>
       <p class="lead">Narrow results:</p>
 
         <div class="form-group">
-    <%= f.label :league_name_cont, "League name contains" %>
-    <%= f.text_field :league_name_cont, :class => "form-control", :placeholder => "League name contains" %>
+    <%= f.label :league_name_cont, "League Name" %>
+    <%= f.text_field :league_name_cont, :class => "form-control", :placeholder => "League name" %>
   </div>
 
-<div class="form-group">
-    <%= f.label :user_first_pick_cont, "User first pick contains" %>
-    <%= f.text_field :user_first_pick_cont, :class => "form-control", :placeholder => "User first pick contains" %>
+  <div class="form-group">
+    <%= f.label :scoring_cont, "Type of Scoring" %>
+    <%= f.text_field :scoring_cont, :class => "form-control", :placeholder => "'norm' or 'ppr'" %>
   </div>
 
-<div class="form-group">
-    <%= f.label :scoring_cont, "Scoring contains" %>
-    <%= f.text_field :scoring_cont, :class => "form-control", :placeholder => "Scoring contains" %>
-  </div>
-
-<div class="form-group">
-  <%= f.label :num_teams, "Num teams" %>
-  <div class="row">
-    <div class='col-md-6 mb-1'>
-      <%= f.text_field :num_teams_gteq, :class => "form-control", :placeholder => "Num teams greater than or equal to" %>
-    </div>
-    <div class='col-md-6'>
-      <%= f.text_field :num_teams_lteq, :class => "form-control", :placeholder => "Num teams less than or equal to" %>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-          <%= f.label :created_at, "Created at" %>
-          <div class="row">
-            <div class='col-md-6 mb-1'>
-              <div class='input-group date' id='created_atgteqPicker'>
-                  <%= f.text_field :created_at_gteq, :class => "form-control", :placeholder => "Created at greater than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-
-            <div class='col-md-6'>
-              <div class='input-group date' id='created_atlteqPicker'>
-                  <%= f.text_field :created_at_lteq, :class => "form-control", :placeholder => "Created at less than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-          </div>
-      </div>
-      <script type="text/javascript">
-          $(function () {
-              $('#created_atgteqPicker').datetimepicker({
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atlteqPicker').datetimepicker({
-                  useCurrent: false,
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atgteqPicker').on("dp.change", function (e) {
-                  $('#created_atlteqPicker').data("DateTimePicker").minDate(e.date);
-              });
-              $('#created_atlteqPicker').on("dp.change", function (e) {
-                  $('#created_atgteqPicker').data("DateTimePicker").maxDate(e.date);
-              });
-          });
-      </script>
-
-        <div class="form-group">
-      <%= f.label :user_email_cont, "User email contains" %>
-      <%= f.text_field :user_email_cont, :class => "form-control", :placeholder => "User email contains" %>
-    </div>
-
-<div class="form-group">
-          <%= f.label :created_at, "Player Created at" %>
-          <div class="row">
-            <div class='col-md-6 mb-1'>
-              <div class='input-group date' id='playersgteqcreated_atPicker'>
-                  <%= f.text_field :players_created_at_gteq, :class => "form-control", :placeholder => "Player Created at greater than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-
-            <div class='col-md-6'>
-              <div class='input-group date' id='playerslteqcreated_atPicker'>
-                  <%= f.text_field :players_created_at_lteq, :class => "form-control", :placeholder => "Player Created at less than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-          </div>
-      </div>
-      <script type="text/javascript">
-          $(function () {
-              $('#playersgteqcreated_atPicker').datetimepicker({
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#playerslteqcreated_atPicker').datetimepicker({
-                  useCurrent: false,
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#playersgteqcreated_atPicker').on("dp.change", function (e) {
-                  $('#playerslteqcreated_atPicker').data("DateTimePicker").minDate(e.date);
-              });
-              $('#playerslteqcreated_atPicker').on("dp.change", function (e) {
-                  $('#playersgteqcreated_atPicker').data("DateTimePicker").maxDate(e.date);
-              });
-          });
-      </script>
 
       <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
 
       <a href="/leagues" class="btn btn-default btn-block mb-1">Clear filters</a>
     <% end %>
-    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#leagues_filters">
+     <a class="btn btn-outline-secondary btn-block mb-3" data-toggle="collapse" href="#leagues_filters">
       Show Filters
     </a>
   </div>
 </div>
 
+
+
+<!--list of leagues-->
 <div class="row">
   <div class="col-md-12">
     <table class="table table-striped table-hover">
       <tr>
-        <th>User</th>
-        <th>Num teams</th>
+        <th>Date</th>
+        <th>Name</th>
         <th>Scoring</th>
-        <th>User first pick</th>
-        <th>League name</th>
-        <th>Actions</th>
+        <th>Projected Placement</th>
+        <th></th>
       </tr>
 
       <% @leagues.each do |league| %>
       <tr>
-        <td>
-          <% if league.user.present? %>
-            <a href="/users/<%= league.user.id %>">
-              <%= league.user.email %>
-            </a>
-          <% end %>
-        </td>
-        <td><%= league.num_teams %></td>
-        <td><%= league.scoring %></td>
-        <td><%= league.user_first_pick %></td>
+        <td><%= league.created_at.strftime("%_m/%d") %></td>
         <td><%= league.league_name %></td>
+        <td><%= league.scoring %></td>
+            <% if Draft.where(draft_id: league.id.to_s).count == 0 %>
+              <td></td>
+            <% else %>
+              <% team_points = [] %>
+              <% (1..league.num_teams.to_i).each do |team_num| %>
+                <% tp = 0 %>
+                <% x = Draft.where('draft_id = ? AND team = ?', league.id, team_num) %>
+                <% x.each do |plr| %>
+                  <% pl = Player.find(plr.players_id) %>
+                  <% tp += pl.points %>
+                <% end %>
+                <% tp = tp/17.0 %>
+                <% team_points.push(tp) %>
+              <% end %>
+              <% team_ranks = team_points.each_index.max_by(league.num_teams.to_i){|i| team_points[i]} %>
+              <% my_rank = team_ranks.find_index(league.user_first_pick.to_i - 1) + 1 %>
+              <td class="text-center"><%= my_rank.ordinalize %></td>
+        <% end %>
         <td>
-          <a href="/leagues/<%= league.id %>" class="btn btn-primary">Show</a>
-          
+          <div class="btn-group pull-right">
+          <% if Draft.where(draft_id: league.id.to_s).count == 0 %>
           <% if current_user == league.user %>
-            <a href="/leagues/<%= league.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/leagues/<%= league.id %>/draft" class="btn btn-success">Start Drafting</a>
             <a href="/delete_league/<%= league.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
           <% end %>
         </td>
+          <% else %>
+          <a href="/leagues/<%= league.id %>" class="btn btn-primary">View</a>
+          
+          <% if current_user == league.user %>
+            <a href="/leagues/<%= league.id %>/draft" class="btn btn-warning">Keep Drafting</a>
+            <a href="/delete_league/<%= league.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
+        </td>
+        </div>
+        <% end %>
       </tr>
       <% end %>
     </table>

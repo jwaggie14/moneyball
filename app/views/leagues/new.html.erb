@@ -7,9 +7,9 @@
     </div>
   <% end %>
 <% end %>
-
+<br>
 <div class="page-header">
-  <h3>Add League</h3>
+  <h3>Define the league's settings</h3>
 </div>
 
 <div class="row">
@@ -20,41 +20,46 @@
 
       <!-- Label and input for user_id -->
       <input type="hidden" name="user_id" value="<%= current_user.id %>">
+      
+      <!-- Label and input for league_name -->
+      <div class="form-group">
+        <label for="league_name" class="control-label text-dark">
+          League Name
+        </label>
+
+        <input type="text" id="league_name" name="league_name" placeholder="Know I'll judge you..." class="form-control" value="<%= @league.league_name %>">
+      </div>
 
       <!-- Label and input for num_teams -->
       <div class="form-group">
-        <label for="num_teams" class="control-label">
-          Num teams
+        <label for="num_teams" class="control-label text-dark">
+          Number of Teams
         </label>
 
-        <input type="text" id="num_teams" name="num_teams" placeholder="Num teams" class="form-control" value="<%= @league.num_teams %>">
+        <input type="text" id="num_teams" name="num_teams" placeholder="10? 12? Over 9000?" class="form-control" value="<%= @league.num_teams %>">
+      </div>
+
+
+
+      <!-- Label and input for user_first_pick -->
+      <div class="form-group">
+        <label for="user_first_pick" class="control-label text-dark">
+          Your First Pick
+        </label>
+
+        <input type="text" id="user_first_pick" name="user_first_pick" placeholder="Hopefully not last..." class="form-control" value="<%= @league.user_first_pick %>">
       </div>
 
       <!-- Label and input for scoring -->
       <div class="form-group">
-        <label for="scoring" class="control-label">
-          Scoring
+        <fieldset disabled="">
+        <label for="scoring" class="control-label text-dark">
+          Scoring Rules (in development)
         </label>
 
-        <input type="text" id="scoring" name="scoring" placeholder="Scoring" class="form-control" value="<%= @league.scoring %>">
-      </div>
-
-      <!-- Label and input for user_first_pick -->
-      <div class="form-group">
-        <label for="user_first_pick" class="control-label">
-          User first pick
-        </label>
-
-        <input type="text" id="user_first_pick" name="user_first_pick" placeholder="User first pick" class="form-control" value="<%= @league.user_first_pick %>">
-      </div>
-
-      <!-- Label and input for league_name -->
-      <div class="form-group">
-        <label for="league_name" class="control-label">
-          League name
-        </label>
-
-        <input type="text" id="league_name" name="league_name" placeholder="League name" class="form-control" value="<%= @league.league_name %>">
+        <input type="text" id="scoring" name="scoring" placeholder="Scoring" class="form-control" value="norm">
+        </fieldset>
+        <input type="hidden" id="scoring" name="scoring" placeholder="Scoring" class="form-control" value="norm">
       </div>
 
       <button class="btn btn-success">

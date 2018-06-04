@@ -1,49 +1,96 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h2 class="panel-title">Log In</h2>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+          <br>
+          <br>
+          <br>
+          <h1 class="display-4">Win more ex post</h1>
+          <p class="lead text-info">THROUGH BETTER DECISIONS EX ANTE</p>
+          <hr class="my-4">
+
+          
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active show" data-toggle="tab" href="#about">About</a>
+            </li>
+          </ul>
+          <div id="myTabContent" class="tab-content ">
+            <!--about tab -->
+            <div class="tab-pane fade active show" id="about">
+              <br>
+              <h3>
+              Analytics is crap.
+              <small class="text-muted">Charles Barkley 2015</small>
+              </h3>
+              <br>
+              <p class="text-dark">Barkley goes on to say that the NBA comes down to talent.  He's right.  The most talented team wins (most of the time) - this is true for every league in every sport and it is just as true for fantasy sports.</p>
+              <p class="text-dark">
+                With hindsight, it is obvious that the Rocket, to whom Barkley was referring, were doing well because they had a talented team and had paid up for some superstars.  
+                Where analytics adds value is in seeing potential that has been overlooked in players and plays - identifying the talent BEFORE it becomes obvious.
+                Barkley takes for granted that James Harden was a talented player when the rockets drafted him.  But in 2012, conventional knowledge was that Harden was an all-star talent.  
+                Daryl Morey and the Rockets recognized that Harden was an MVP talent before the others and picked him up for an all-star price.
+              </p>
+              <p class="text-dark">
+                This is the value analytics provides.  With analytics, you can see what others don't.  You can scoop up an MVP at a discount. <br>
+              </p>
+                <hr class="my-4">
+              <p class="lead text-dark">Scoop up more MVPs with Signal Sports.</p>
+            </div>
+            <!--demo tab-->
+          </div>
+          
+          
+
       </div>
-
-      <div class="panel-body">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal", role: "form" }) do |f| %>
-          <div class="form-group">
-            <%= f.label :email, class: "col-sm-2 control-label" %>
-            <div class="col-sm-10">
-              <%= f.email_field :email, autofocus: true, class: "form-control" %>
-            </div>
+      <!--sign in form-->
+      <div class="col-sm-4">
+        <div class="card bg-secondary mb-3" style="max-width: 20rem;">
+          <h3 class="card-header">Log In</h3>
+          <div class="card-body">
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "form-horizontal", role: "form" }) do |f| %>
+              <div class="form-group text-dark">
+                <%= f.label :email, class: "control-label" %>
+                <div class="col-sm-10 text-dark">
+                  <%= f.email_field :email, autofocus: true, class: "form-control" %>
+                </div>
+              </div>
+    
+              <div class="form-group text-dark">
+                <%= f.label :password, class: "control-label" %>
+                <div class="col-sm-10 text-dark">
+                  <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+                </div>
+              </div>
+    
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10 text-dark">
+                  <% if devise_mapping.rememberable? -%>
+                    <%= f.label :remember_me do %>
+                      <%= f.check_box :remember_me %> Remember me
+                    <% end %>
+                  <% end -%>
+                </div>
+              </div>
+    
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <%= f.submit "Log in", class: "btn btn-success btn-block" %>
+                </div>
+              </div>
+    
+              <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2 ">
+                  <%= render "devise/shared/links" %>
+                </div>
+              </div>
+            <% end %>
           </div>
-
-          <div class="form-group">
-            <%= f.label :password, class: "col-sm-2 control-label" %>
-            <div class="col-sm-10">
-              <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <% if devise_mapping.rememberable? -%>
-                <%= f.label :remember_me do %>
-                  <%= f.check_box :remember_me %> Remember me
-                <% end %>
-              <% end -%>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <%= f.submit "Log in", class: "btn btn-success btn-block" %>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2">
-              <%= render "devise/shared/links" %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
+        </div>
+      </div> 
+      <!--sign in form-->
   </div>
 </div>
+<br>
+<br>
+<br>
+<br>

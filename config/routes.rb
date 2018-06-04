@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root :to => "players#index"
+  root :to => "leagues#index"
+  
+  get "/demo", :controller => "demo", :action => "game"
+  
+  get "/index", :controller => "users", :action => "home"
   # Routes for the Draft resource:
   # CREATE
   get "/drafts/new", :controller => "drafts", :action => "new"
@@ -34,6 +38,11 @@ Rails.application.routes.draw do
 
   # DELETE
   get "/delete_league/:id", :controller => "leagues", :action => "destroy"
+  
+  
+  get "/leagues/:id/draft", :controller => "leagues", :action => "draft"
+  
+  
   #------------------------------
 
   # Routes for the Player resource:
