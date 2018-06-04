@@ -66,7 +66,7 @@ end
     @current_pick = Draft.where(draft_id: @league.id.to_s).maximum("pick_num")
     @current_pick_draft_num = Draft.where(draft_id: @league.id.to_s).maximum("id")
     @current_pick = @current_pick.nil? ? 0 : @current_pick
-    @ps = Player.where.not(id: Draft.where(draft_id: @league.id.to_s).pluck(:players_id))
+    @ps = Player.where.not(id: Draft.where(draft_id: @league.id.to_s).pluck(:players_id)).order(:vor).reverse_order()
     @rbs = @ps.where(position: "rb").to_a.map(&:serializable_hash).sort_by { |k| k["vor"] }.reverse
     @qbs = @ps.where(position: "qb").to_a.map(&:serializable_hash).sort_by { |k| k["vor"] }.reverse
     @wrs = @ps.where(position: "wr").to_a.map(&:serializable_hash).sort_by { |k| k["vor"] }.reverse
