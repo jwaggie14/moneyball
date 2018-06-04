@@ -35,7 +35,7 @@ class LeaguesController < ApplicationController
         ad += pl.adp
       end
       tp = tp/17.0
-      if x > 0
+      if x.count > 0
         ad = ad / x.count
       else
         ad = ""
