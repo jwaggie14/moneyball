@@ -35,7 +35,11 @@ class LeaguesController < ApplicationController
         ad += pl.adp
       end
       tp = tp/17.0
-      ad = ad / x.count
+      if x > 0
+        ad = ad / x.count
+      else
+        ad = ""
+      end
       @team_points.push(tp)
       @team_adp.push(ad)
     end
