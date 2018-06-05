@@ -13,5 +13,5 @@ class Draft < ApplicationRecord
   # Indirect associations
 
   # Validations
-
+  validates :draft_id, uniqueness: {scope: :pick_num}
 end

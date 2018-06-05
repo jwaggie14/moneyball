@@ -26,19 +26,25 @@ class DraftsController < ApplicationController
     @draft.pick_num = params[:pick_num]
     @draft.team = params[:team]
 
-    save_status = @draft.save
-
-    if save_status == true
-      referer = URI(request.referer).path
-
-      case referer
-      when "/drafts/new", "/create_draft"
-        redirect_to("/drafts")
+    check_valid = @draft.valid?
+    
+    if check_valid
+      save_status = @draft.save
+  
+      if save_status == true
+        referer = URI(request.referer).path
+  
+        case referer
+        when "/drafts/new", "/create_draft"
+          redirect_to("/drafts")
+        else
+          redirect_back(:fallback_location => "/")
+        end
       else
-        redirect_back(:fallback_location => "/")
+        render("drafts/new.html.erb")
       end
     else
-      render("drafts/new.html.erb")
+      redirect_to("/leagues/#{params[:draft_id]}/draft")
     end
   end
 

@@ -72,7 +72,8 @@
                 <% team_points.push(tp) %>
               <% end %>
               <% team_ranks = team_points.each_index.max_by(league.num_teams.to_i){|i| team_points[i]} %>
-              <% my_rank = team_ranks.find_index(league.user_first_pick.to_i - 1) + 1 %>
+              <% my_rank = team_ranks.find_index(league.user_first_pick.to_i - 1)%>
+              <% my_rank = (my_rank == nil ? 1 : my_rank) + 1 %>
               <td class="text-center"><%= my_rank.ordinalize %></td>
         <% end %>
         <td>

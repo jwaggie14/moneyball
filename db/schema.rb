@@ -44,9 +44,9 @@ ActiveRecord::Schema.define(version: 20180601202742) do
   end
 
   create_table "drafts", force: :cascade do |t|
-    t.integer  "draft_id"
-    t.integer  "players_id"
-    t.integer  "pick_num"
+    t.integer  "draft_id" #league
+    t.integer  "players_id" 
+    t.integer  "pick_num" #
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team"

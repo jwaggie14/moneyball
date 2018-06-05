@@ -15,5 +15,5 @@ class League < ApplicationRecord
              :source => :players
 
   # Validations
-
+  validates :league_name, :user_first_pick, :num_teams, presence: true
 end
